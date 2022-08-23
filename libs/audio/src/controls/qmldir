@@ -1,0 +1,5 @@
+module org.mauicore.audio
+plugin MauiCoreAudio
+classname AudioPlugin
+
+typeinfo plugins.qmltypes

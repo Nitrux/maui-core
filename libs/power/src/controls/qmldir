@@ -1,0 +1,5 @@
+module org.mauicore.power
+plugin MauiCorePower
+classname PowerPlugin
+
+typeinfo plugins.qmltypes

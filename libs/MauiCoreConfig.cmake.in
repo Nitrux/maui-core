@@ -1,0 +1,23 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+find_dependency(Qt5Core @REQUIRED_QT_VERSION@)
+
+# Any changes in this ".cmake" file will be overwritten by CMake, the source is the ".cmake.in" file.
+
+foreach(PKG IN LISTS MauiCore_FIND_COMPONENTS)
+    find_package(MauiCore${PKG})
+    if(MauiCore_FIND_REQUIRED_${PKG})
+        set_package_properties(MauiCore${PKG} PROPERTIES TYPE REQUIRED)
+    else()
+        set_package_properties(MauiCore${PKG} PROPERTIES TYPE OPTIONAL)
+    endif()
+
+    set(MauiCore_${PKG}_FOUND ${MauiCore${PKG}_FOUND})
+endforeach()
+
+#include("${CMAKE_CURRENT_LIST_DIR}/MauiCoreTargets.cmake")
+
+set(MauiCore_INSTALL_PREFIX "@PACKAGE_CMAKE_INSTALL_PREFIX@")
+
+@PACKAGE_INCLUDE_QCHTARGETS@
