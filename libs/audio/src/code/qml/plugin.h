@@ -13,5 +13,17 @@ class AudioPlugin : public QQmlExtensionPlugin
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 public:
     void registerTypes(const char *uri) override;
+
+private:
+    QUrl componentUrl(const QString &fileName) const;
+
+    QString resolveFileUrl(const QString &filePath) const
+    {
+#ifdef QUICK_COMPILER
+        return QStringLiteral("qrc:/mauicore/audio/") + filePath;
+#else
+        return baseUrl().toString() + QLatin1Char('/') + filePath;
+#endif
+    }
 };
 

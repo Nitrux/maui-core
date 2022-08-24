@@ -36,9 +36,14 @@ static QJSValue pulseaudio_singleton(QQmlEngine *engine, QJSEngine *scriptEngine
     return object;
 }
 
+QUrl AudioPlugin::componentUrl(const QString &fileName) const
+{
+    return QUrl(resolveFileUrl(fileName));
+}
+
 void AudioPlugin::registerTypes(const char *uri)
 {
-    QPulseAudio::Context::setApplicationId(QStringLiteral("maui.cask.audio"));
+    QPulseAudio::Context::setApplicationId(uri);
 
     qmlRegisterType<SortFilterModel>(uri, 1, 0, "SortFilterModel");
 
@@ -50,7 +55,7 @@ void AudioPlugin::registerTypes(const char *uri)
     qmlRegisterType<QPulseAudio::SourceOutputModel>(uri, 1, 0, "SourceOutputModel");
     qmlRegisterType<QPulseAudio::StreamRestoreModel>(uri, 1, 0, "StreamRestoreModel");
     qmlRegisterType<QPulseAudio::ModuleModel>(uri, 1, 0, "ModuleModel");
-    qmlRegisterType<QPulseAudio::VolumeMonitor>(uri, 0, 01, "VolumeMonitor");
+    qmlRegisterType<QPulseAudio::VolumeMonitor>(uri, 1, 0, "VolumeMonitor");
     qmlRegisterUncreatableType<QPulseAudio::PulseObject>(uri, 1, 0, "PulseObject", QString());
     qmlRegisterUncreatableType<QPulseAudio::Profile>(uri, 1, 0, "Profile", QString());
     qmlRegisterUncreatableType<QPulseAudio::Port>(uri, 1, 0, "Port", QString());
@@ -68,4 +73,8 @@ void AudioPlugin::registerTypes(const char *uri)
     qmlRegisterAnonymousType<QPulseAudio::Sink>(uri, 1);
     qmlRegisterAnonymousType<QPulseAudio::Source>(uri, 1);
     qmlRegisterAnonymousType<QPulseAudio::VolumeObject>(uri, 1);
+
+    qmlRegisterType(componentUrl(QStringLiteral("PulseObjectFilterModel.qml")), uri, 1, 0, "PulseObjectFilterModel");
+
 }
+

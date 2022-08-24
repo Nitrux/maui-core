@@ -1,6 +1,7 @@
-import Cutefish.Audio 1.0
+import org.mauicore.audio 1.0 as MauiCore
 
-SortFilterModel {
+MauiCore.SortFilterModel
+{
     property var filters: []
     property bool filterOutInactiveDevices: false
 
