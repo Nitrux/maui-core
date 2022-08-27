@@ -73,7 +73,7 @@ checkinstall -D -y \
 	--pakdir=. \
 	--maintainer=uri_herrera@nxos.org \
 	--provides=maui-core \
-	--requires=libc6,libcanberra0,libcanberra-pulse,libgcc-s1,libstdc++6 \
+	--requires=libc6,libcanberra0,libcanberra-pulse,libgcc-s1,libpulse0,libstdc++6 \
 	--nodoc \
 	--strip=no \
 	--stripso=yes \

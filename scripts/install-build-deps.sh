@@ -28,6 +28,7 @@ $APT_COMMAND install -qy --no-install-recommends \
     libkf5i18n-dev \
     libkf5kio-dev \
     libkf5notifications-dev \
+    libpulse-dev \
     libwayland-dev \
     lintian \
     qtbase5-dev \
