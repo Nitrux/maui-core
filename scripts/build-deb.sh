@@ -17,8 +17,7 @@ apt -qq update
 ### Install Package Build Dependencies #2
 
 DEBIAN_FRONTEND=noninteractive apt -qq -yy install --no-install-recommends \
-	mauikit-git \
-	mauikit-filebrowsing-git
+	mauikit-git
 
 ### Download Source
 
