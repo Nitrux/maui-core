@@ -63,11 +63,6 @@ add_library(${PROJECT_NAME} SHARED ${audio_SRCS} ${mauicoreaudio_QML_QRC})
 add_library(MauiCore::Audio ALIAS ${PROJECT_NAME})
 
 generate_export_header(${PROJECT_NAME} BASE_NAME Audio)
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    VERSION ${PROJECT_VERSION}
-    SOVERSION ${PROJECT_VERSION_MAJOR}
-    EXPORT_NAME Audio
-    )
 
 target_include_directories(${PROJECT_NAME}
     INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/Maui/Core/Audio>")
