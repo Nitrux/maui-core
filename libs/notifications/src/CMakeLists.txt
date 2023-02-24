@@ -68,11 +68,6 @@ add_library(
 add_library(MauiCore::Notifications ALIAS ${PROJECT_NAME})
 
 generate_export_header(${PROJECT_NAME} BASE_NAME Notifications)
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    VERSION ${PROJECT_VERSION}
-    SOVERSION ${PROJECT_VERSION_MAJOR}
-    EXPORT_NAME Notifications
-    )
 
 target_include_directories(${PROJECT_NAME}
     INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/Maui/Core/Notifications>")
