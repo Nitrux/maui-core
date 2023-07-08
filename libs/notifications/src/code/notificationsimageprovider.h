@@ -21,8 +21,7 @@
  * $END_LICENSE$
  ***************************************************************************/
 
-#ifndef NOTIFICATIONSIMAGEPROVIDER_H
-#define NOTIFICATIONSIMAGEPROVIDER_H
+#pragma once
 
 #include <QQuickImageProvider>
 
@@ -34,4 +33,3 @@ public:
     QPixmap requestPixmap(const QString &id, QSize *realSize, const QSize &requestedSize);
 };
 
-#endif // NOTIFICATIONSIMAGEPROVIDER_H

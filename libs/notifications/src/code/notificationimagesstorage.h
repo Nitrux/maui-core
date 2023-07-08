@@ -1,6 +1,5 @@
 
-#ifndef NOTIFICATIONIMAGESSTORAGE_H
-#define NOTIFICATIONIMAGESSTORAGE_H
+#pragma once
 
 #include <QHash>
 #include <QPixmap>
@@ -27,5 +26,3 @@ public:
 private:
     QHash<uint, NotificationImage *> m_images;
 };
-
-#endif // NOTIFICATIONIMAGESSTORAGE_H

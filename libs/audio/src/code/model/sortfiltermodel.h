@@ -1,9 +1,8 @@
-#ifndef DATAMODEL_H
-#define DATAMODEL_H
+#pragma once
 
 #include <QAbstractItemModel>
 #include <QJSValue>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QSortFilterProxyModel>
 #include <QVector>
 
@@ -128,5 +127,3 @@ private:
     QJSValue m_filterCallback;
     QHash<QString, int> m_roleIds;
 };
-
-#endif

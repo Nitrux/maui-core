@@ -23,6 +23,7 @@
 #include <QSettings>
 #include <QDataStream>
 #include <QMetaEnum>
+#include <QIODevice>
 
 HistoryModel::HistoryModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -60,7 +61,7 @@ QVariant HistoryModel::data(const QModelIndex &index, int role) const
     case HistoryModel::CategoryRole:
         return notification.category;
     case HistoryModel::HasDefaultActionRole:
-        return notification.actions.contains("default");
+        return notification.actions.contains(QStringLiteral("default"));
     default:
         break;
     }
@@ -132,7 +133,7 @@ void HistoryModel::clearAll()
 
 void HistoryModel::save()
 {
-    QSettings settings(QSettings::UserScope, "cutefishos", "notifications");
+    QSettings settings(QSettings::UserScope, QStringLiteral("cutefishos"), QStringLiteral("notifications"));
     settings.clear();
 
     QByteArray datas;
@@ -145,13 +146,13 @@ void HistoryModel::save()
 
 void HistoryModel::initDatas()
 {
-    QSettings settings(QSettings::UserScope, "cutefishos", "notifications");
+    QSettings settings(QSettings::UserScope, QStringLiteral("cutefishos"), QStringLiteral("notifications"));
     QByteArray listByteArray = settings.value("datas").toByteArray();
-    QDataStream in(&listByteArray, QIODevice::ReadOnly);
+    QDataStream in(&listByteArray, QIODeviceBase::ReadOnly);
     in >> m_notifications;
 }
 
 void HistoryModel::updateTime()
 {
-    emit layoutChanged();
+    Q_EMIT layoutChanged();
 }

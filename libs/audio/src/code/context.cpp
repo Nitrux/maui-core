@@ -585,7 +585,7 @@ void Context::connectToDaemon()
     Q_ASSERT(api);
 
     pa_proplist *proplist = pa_proplist_new();
-    pa_proplist_sets(proplist, PA_PROP_APPLICATION_NAME, QString("Cutefish PA").toUtf8().constData());
+    pa_proplist_sets(proplist, PA_PROP_APPLICATION_NAME, QString(QStringLiteral("Cutefish PA")).toUtf8().constData());
     if (!s_applicationId.isEmpty()) {
         pa_proplist_sets(proplist, PA_PROP_APPLICATION_ID, s_applicationId.toUtf8().constData());
     } else {

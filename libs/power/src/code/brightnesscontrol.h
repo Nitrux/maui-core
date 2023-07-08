@@ -43,11 +43,11 @@ public:
     bool triggersLidAction() const;
     void setTriggersLidAction(bool triggersLidAction);
 
-public slots:
+public Q_SLOTS:
     void changeScreenBrightness( int value, bool silent);
     void changeKeyboardBrightness( int value, bool silent);
 
-signals:
+Q_SIGNALS:
     void screenBrightnessChanged(int screenBrightness);
     void keyboardBrightnessChanged(int keyboardBrightness);
     void maximumScreenBrightnessChanged(int maximumScreenBrightness);

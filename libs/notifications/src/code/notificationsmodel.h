@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-#ifndef NOTIFICATIONSMODEL_H
-#define NOTIFICATIONSMODEL_H
+#pragma once
 
 #include <QAbstractListModel>
 #include <QVector>
@@ -59,13 +58,13 @@ public:
 
     bool doNotDisturb() const;
 
-public slots:
+public Q_SLOTS:
     void setDoNotDisturb(bool doNotDisturb);
 
-signals:
+Q_SIGNALS:
     void doNotDisturbChanged(bool doNotDisturb);
 
-private slots:
+private Q_SLOTS:
     void onNotificationAdded(const Notification &notification);
     void onNotificationReplaced(uint replacedId, const Notification &notification);
     void onNotificationRemoved(uint notificationId, NotificationServer::CloseReason reason);
@@ -78,7 +77,3 @@ private:
     QTimer m_pendingRemovalTimer;
     bool m_doNotDisturb = false;
 };
-
-
-
-#endif // NOTIFICATIONSMODEL_H

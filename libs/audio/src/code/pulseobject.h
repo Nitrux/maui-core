@@ -4,11 +4,12 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-#ifndef PULSEOBJECT_H
-#define PULSEOBJECT_H
+#pragma once
 
 #include "debug.h"
 #include <QObject>
+#include <QString>
+#include <QVariant>
 
 #include <pulse/introspect.h>
 
@@ -38,7 +39,7 @@ public:
                 continue;
             }
             Q_ASSERT(value);
-            properties.insert(QString::fromUtf8(key), QString::fromUtf8(value));
+            properties.insert(QString::fromLocal8Bit(key), QVariant(QString::fromLocal8Bit(value)));
         }
 
         if (m_properties != properties) {
@@ -68,5 +69,3 @@ private:
 };
 
 } // QPulseAudio
-
-#endif // PULSEOBJECT_H

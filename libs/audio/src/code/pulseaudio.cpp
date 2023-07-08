@@ -5,15 +5,14 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
+
 #include "pulseaudio.h"
 
 #include "card.h"
 #include "debug.h"
 #include "module.h"
 #include "server.h"
-#include "sink.h"
 #include "sinkinput.h"
-#include "source.h"
 #include "sourceoutput.h"
 #include "streamrestore.h"
 
@@ -59,7 +58,7 @@ QHash<int, QByteArray> AbstractModel::roleNames() const
         return m_roles;
     }
     Q_UNREACHABLE();
-    return QHash<int, QByteArray>();
+    return {};
 }
 
 int AbstractModel::rowCount(const QModelIndex &parent) const
@@ -73,7 +72,7 @@ int AbstractModel::rowCount(const QModelIndex &parent) const
 QVariant AbstractModel::data(const QModelIndex &index, int role) const
 {
     if (!hasIndex(index.row(), index.column())) {
-        return QVariant();
+        return {};
     }
     QObject *data = m_map->objectAt(index.row());
     Q_ASSERT(data);
@@ -84,7 +83,7 @@ QVariant AbstractModel::data(const QModelIndex &index, int role) const
     }
     int property = m_objectProperties.value(role, -1);
     if (property == -1) {
-        return QVariant();
+        return {};
     }
     return data->metaObject()->property(property).read(data);
 }
@@ -120,7 +119,7 @@ void AbstractModel::initRoleNames(const QMetaObject &qobjectMetaObject)
 
     QMetaEnum enumerator;
     for (int i = 0; i < metaObject()->enumeratorCount(); ++i) {
-        if (metaObject()->enumerator(i).name() == QLatin1String("ItemRole")) {
+        if (metaObject()->enumerator(i).name() == ("ItemRole")) {
             enumerator = metaObject()->enumerator(i);
             break;
         }
@@ -146,7 +145,7 @@ void AbstractModel::initRoleNames(const QMetaObject &qobjectMetaObject)
     auto mo = qobjectMetaObject;
     for (int i = 0; i < mo.propertyCount(); ++i) {
         QMetaProperty property = mo.property(i);
-        QString name(property.name());
+        QString name(QString::fromLocal8Bit(property.name()));
         name.replace(0, 1, name.at(0).toUpper());
         m_roles[++maxEnumValue] = name.toLatin1();
         m_objectProperties.insert(maxEnumValue, i);
@@ -155,7 +154,7 @@ void AbstractModel::initRoleNames(const QMetaObject &qobjectMetaObject)
         }
         m_signalIndexToProperties.insert(property.notifySignalIndex(), i);
     }
-    qCDebug(PLASMAPA) << m_roles;
+    qDebug() << m_roles;
 
     // Connect to property changes also with objects already in model
     for (int i = 0; i < m_map->count(); ++i) {
@@ -186,8 +185,8 @@ void AbstractModel::onDataAdded(int index)
     QObject *data = m_map->objectAt(index);
     const QMetaObject *mo = data->metaObject();
     // We have all the data changed notify signals already stored
-    auto keys = m_signalIndexToProperties.keys();
-    Q_FOREACH (int index, keys) {
+    const auto keys = m_signalIndexToProperties.keys();
+    for (const int index : keys) {
         QMetaMethod meth = mo->method(index);
         connect(data, meth, this, propertyChangedMetaMethod());
     }
@@ -198,7 +197,7 @@ QMetaMethod AbstractModel::propertyChangedMetaMethod() const
     auto mo = metaObject();
     int methodIndex = mo->indexOfMethod("propertyChanged()");
     if (methodIndex == -1) {
-        return QMetaMethod();
+        return {};
     }
     return mo->method(methodIndex);
 }
@@ -238,7 +237,7 @@ QVariant SinkModel::data(const QModelIndex &index, int role) const
         // Workaround QTBUG-1548
         const QString pulseIndex = data(index, AbstractModel::role(QByteArrayLiteral("Index"))).toString();
         const QString defaultDevice = data(index, AbstractModel::role(QByteArrayLiteral("Default"))).toString();
-        return defaultDevice + pulseIndex;
+        return QString(defaultDevice + pulseIndex);
     }
     return AbstractModel::data(index, role);
 }
@@ -264,7 +263,7 @@ void SinkModel::updatePreferredSink()
     Sink *sink = findPreferredSink();
 
     if (sink != m_preferredSink) {
-        qCDebug(PLASMAPA) << "Changing preferred sink to" << sink << (sink ? sink->name() : "");
+        qDebug() << "Changing preferred sink to" << sink << (sink ? sink->name() : QStringLiteral(""));
         m_preferredSink = sink;
         Q_EMIT preferredSinkChanged();
     }
@@ -334,7 +333,7 @@ QVariant SourceModel::data(const QModelIndex &index, int role) const
         // Workaround QTBUG-1548
         const QString pulseIndex = data(index, AbstractModel::role(QByteArrayLiteral("Index"))).toString();
         const QString defaultDevice = data(index, AbstractModel::role(QByteArrayLiteral("Default"))).toString();
-        return defaultDevice + pulseIndex;
+        return QString(defaultDevice + pulseIndex);
     }
     return AbstractModel::data(index, role);
 }

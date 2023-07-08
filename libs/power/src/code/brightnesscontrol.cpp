@@ -8,7 +8,7 @@
 #include <QDBusPendingCallWatcher>
 #include <QDBusReply>
 
-static const char SOLID_POWERMANAGEMENT_SERVICE[] = "org.kde.Solid.PowerManagement";
+static const QString SOLID_POWERMANAGEMENT_SERVICE = QStringLiteral("org.kde.Solid.PowerManagement");
 
 BrightnessControl::BrightnessControl(QObject *parent) : QObject(parent)
   ,m_screenBrightness(-1)
@@ -16,7 +16,7 @@ BrightnessControl::BrightnessControl(QObject *parent) : QObject(parent)
   ,m_maximumScreenBrightness(-1)
   ,m_maximumKeyboardBrightness(-1)
 {
-    if (QDBusConnection::sessionBus().interface()->isServiceRegistered(SOLID_POWERMANAGEMENT_SERVICE))
+    if(QDBusConnection::sessionBus().interface()->isServiceRegistered(SOLID_POWERMANAGEMENT_SERVICE))
     {
 
         if (!QDBusConnection::sessionBus().connect(SOLID_POWERMANAGEMENT_SERVICE,
@@ -177,7 +177,7 @@ void BrightnessControl::setMaximumScreenBrightness(int value)
     }
 
     m_maximumScreenBrightness = value;
-    emit maximumScreenBrightnessChanged(m_maximumScreenBrightness);
+    Q_EMIT maximumScreenBrightnessChanged(m_maximumScreenBrightness);
 
     setScreenBrightnessAvailable(m_maximumScreenBrightness > 0);
 }
@@ -195,7 +195,7 @@ void BrightnessControl::setMaximumKeyboardBrightness(int value)
     }
 
     m_maximumKeyboardBrightness = value;
-    emit maximumScreenBrightnessChanged(m_maximumKeyboardBrightness);
+    Q_EMIT maximumScreenBrightnessChanged(m_maximumKeyboardBrightness);
 
     setKeyboardBrightnessAvailable(m_maximumKeyboardBrightness > 0);
 }
@@ -208,7 +208,7 @@ void BrightnessControl::setScreenBrightness(int screenBrightness)
     }
 
     m_screenBrightness = screenBrightness;
-    emit screenBrightnessChanged(m_screenBrightness);
+    Q_EMIT screenBrightnessChanged(m_screenBrightness);
 }
 
 void BrightnessControl::setKeyboardBrightness(int keyboardBrightness)
@@ -217,7 +217,7 @@ void BrightnessControl::setKeyboardBrightness(int keyboardBrightness)
         return;
 
     m_keyboardBrightness = keyboardBrightness;
-    emit keyboardBrightnessChanged(m_keyboardBrightness);
+    Q_EMIT keyboardBrightnessChanged(m_keyboardBrightness);
 }
 
 void BrightnessControl::changeScreenBrightness(int value, bool silent)
@@ -225,7 +225,7 @@ void BrightnessControl::changeScreenBrightness(int value, bool silent)
     QDBusMessage msg = QDBusMessage::createMethodCall(QStringLiteral("org.kde.Solid.PowerManagement"),
                                                       QStringLiteral("/org/kde/Solid/PowerManagement/Actions/BrightnessControl"),
                                                       QStringLiteral("org.kde.Solid.PowerManagement.Actions.BrightnessControl"),
-                                                      silent ? "setBrightnessSilent" : "setBrightness");
+                                                      silent ? QStringLiteral("setBrightnessSilent") : QStringLiteral("setBrightness"));
     msg << value;
 
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(QDBusConnection::sessionBus().asyncCall(msg), this);
@@ -239,7 +239,7 @@ void BrightnessControl::changeKeyboardBrightness(int value, bool silent)
     QDBusMessage msg = QDBusMessage::createMethodCall(QStringLiteral("org.kde.Solid.PowerManagement"),
                                                       QStringLiteral("/org/kde/Solid/PowerManagement/Actions/KeyboardBrightnessControl"),
                                                       QStringLiteral("org.kde.Solid.PowerManagement.Actions.KeyboardBrightnessControl"),
-                                                      silent ? "setKeyboardBrightnessSilent" : "setKeyboardBrightness");
+                                                      silent ? QStringLiteral("setKeyboardBrightnessSilent") : QStringLiteral("setKeyboardBrightness"));
     msg << value;
 
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(QDBusConnection::sessionBus().asyncCall(msg), this);
@@ -254,7 +254,7 @@ void BrightnessControl::setLidPresent(bool lidPresent)
         return;
 
     m_lidPresent = lidPresent;
-    emit lidPresentChanged(m_lidPresent);
+    Q_EMIT lidPresentChanged(m_lidPresent);
 }
 
 void BrightnessControl::setTriggersLidAction(bool triggersLidAction)
@@ -263,7 +263,7 @@ void BrightnessControl::setTriggersLidAction(bool triggersLidAction)
         return;
 
     m_triggersLidAction = triggersLidAction;
-    emit triggersLidActionChanged(m_triggersLidAction);
+    Q_EMIT triggersLidActionChanged(m_triggersLidAction);
 }
 
 bool BrightnessControl::screenBrightnessAvailable() const
@@ -276,7 +276,7 @@ void BrightnessControl::setScreenBrightnessAvailable(bool newScreenBrightnessAva
     if (m_screenBrightnessAvailable == newScreenBrightnessAvailable)
         return;
     m_screenBrightnessAvailable = newScreenBrightnessAvailable;
-    emit screenBrightnessAvailableChanged();
+    Q_EMIT screenBrightnessAvailableChanged();
 }
 
 bool BrightnessControl::keyboardBrightnessAvailable() const
@@ -289,7 +289,7 @@ void BrightnessControl::setKeyboardBrightnessAvailable(bool newKeyboardBrightnes
     if (m_keyboardBrightnessAvailable == newKeyboardBrightnessAvailable)
         return;
     m_keyboardBrightnessAvailable = newKeyboardBrightnessAvailable;
-    emit keyboardBrightnessAvailableChanged();
+    Q_EMIT keyboardBrightnessAvailableChanged();
 }
 
 bool BrightnessControl::lidPresent() const

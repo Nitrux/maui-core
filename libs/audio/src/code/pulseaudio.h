@@ -5,12 +5,13 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-#ifndef PULSEAUDIO_H
-#define PULSEAUDIO_H
+#pragma once
 
 #include <QAbstractListModel>
 
 #include "maps.h"
+#include "sink.h"
+#include "source.h"
 
 namespace QPulseAudio
 {
@@ -59,9 +60,7 @@ private:
 private:
     // Prevent leaf-classes from default constructing as we want to enforce
     // them passing us a context or explicit nullptrs.
-    AbstractModel()
-    {
-    }
+    AbstractModel() = default;
 };
 
 class CardModel : public AbstractModel
@@ -147,5 +146,3 @@ public:
 };
 
 } // QPulseAudio
-
-#endif // PULSEAUDIO_H

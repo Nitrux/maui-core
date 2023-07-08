@@ -17,8 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NOTIFICATION_H
-#define NOTIFICATION_H
+#pragma once
 
 #include <QObject>
 #include <QDateTime>
@@ -56,5 +55,3 @@ public:
 };
 
 Q_DECLARE_METATYPE(Notification)
-
-#endif // NOTIFICATION_H

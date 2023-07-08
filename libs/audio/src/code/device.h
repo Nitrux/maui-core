@@ -37,7 +37,7 @@ public:
         SuspendedState,
         UnknownState,
     };
-    Q_ENUMS(State);
+    Q_ENUMS(State)
 
     ~Device() override
     {
@@ -48,12 +48,12 @@ public:
     {
         updateVolumeObject(info);
 
-        if (m_name != info->name) {
-            m_name = info->name;
+        if (m_name != QString::fromLocal8Bit(info->name)) {
+            m_name = QString::fromLocal8Bit(info->name);
             Q_EMIT nameChanged();
         }
-        if (m_description != info->description) {
-            m_description = info->description;
+        if (m_description != QString::fromLocal8Bit(info->description)) {
+            m_description = QString::fromLocal8Bit(info->description);
             Q_EMIT descriptionChanged();
         }
         const char *form_factor = pa_proplist_gets(info->proplist, PA_PROP_DEVICE_FORM_FACTOR);

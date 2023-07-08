@@ -70,7 +70,7 @@ QVariant NotificationsModel::data(const QModelIndex &index, int role) const
     case NotificationsModel::ActionsRole:
         return notification.actions;
     case NotificationsModel::HasDefaultActionRole:
-        return notification.actions.contains("default");
+        return notification.actions.contains(QStringLiteral("default"));
     default:
         break;
     }
@@ -146,11 +146,11 @@ void NotificationsModel::invokeDefaultAction(uint notificationId)
     }
 
     const Notification &notification = m_notifications.at(row);
-    if (!notification.actions.contains("default")) {
+    if (!notification.actions.contains(QStringLiteral("default"))) {
         return;
     }
 
-    m_server->InvokeAction(notificationId, "default");
+    m_server->InvokeAction(notificationId, QStringLiteral("default"));
 }
 
 int NotificationsModel::rowOfNotification(uint id) const
@@ -262,7 +262,7 @@ void NotificationsModel::onNotificationRemoved(uint removedId, NotificationServe
         Notification &notification = m_notifications[row];
         // notification.setExpired(true);
         notification.actions.clear();
-        emit dataChanged(idx, idx);
+        Q_EMIT dataChanged(idx, idx);
 
         m_historyModel->add(notification);
 
@@ -288,5 +288,5 @@ void NotificationsModel::setDoNotDisturb(bool doNotDisturb)
         return;
 
     m_doNotDisturb = doNotDisturb;
-    emit doNotDisturbChanged(m_doNotDisturb);
+    Q_EMIT doNotDisturbChanged(m_doNotDisturb);
 }

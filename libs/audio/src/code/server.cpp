@@ -65,7 +65,7 @@ void Server::update(const pa_server_info *info)
 {
     m_defaultSinkName = QString::fromUtf8(info->default_sink_name);
     m_defaultSourceName = QString::fromUtf8(info->default_source_name);
-    m_isPipeWire = QString::fromUtf8(info->server_name).contains("PipeWire");
+    m_isPipeWire = QString::fromUtf8(info->server_name).contains(QStringLiteral("PipeWire"));
 
     updateDefaultDevices();
 

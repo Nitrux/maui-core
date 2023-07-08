@@ -14,7 +14,7 @@
 #include <solid/deviceinterface.h>
 #include <solid/devicenotifier.h>
 
-static const char SOLID_POWERMANAGEMENT_SERVICE[] = "org.kde.Solid.PowerManagement";
+static const QString SOLID_POWERMANAGEMENT_SERVICE = QStringLiteral("org.kde.Solid.PowerManagement");
 
 BatteryInfo::BatteryInfo(QObject *parent)
     : QObject{parent}
@@ -68,7 +68,7 @@ void BatteryModel::addBattery(Battery *battery)
     this->beginInsertRows(QModelIndex(), index, index);
     m_batteries << battery;
     this->endInsertRows();
-    emit this->countChanged();
+    Q_EMIT this->countChanged();
 }
 
 void BatteryModel::removeBattery(Battery *battery)
@@ -87,7 +87,7 @@ void BatteryModel::removeBattery(const QString &udi)
     this->beginRemoveRows(QModelIndex(), index, index);
     m_batteries.remove(index);
     this->endRemoveRows();
-    emit this->countChanged();
+    Q_EMIT this->countChanged();
 }
 
 bool BatteryModel::contains(const QString &udi) const
@@ -176,13 +176,13 @@ void BatteryInfo::init()
         return;
     } //TODO remove?
 
-    foreach (const Solid::Device &deviceBattery, listBattery)
+    for (const Solid::Device &deviceBattery : listBattery)
     {
         auto battery = new Battery(deviceBattery);
         if(battery->isPowerSupply() && !m_primaryBattery)
         {
             m_primaryBattery = battery;
-            emit this->primaryBatteryChanged();
+            Q_EMIT this->primaryBatteryChanged();
         }
 
         m_batteries->addBattery(battery);
@@ -226,7 +226,7 @@ void BatteryInfo::setPrimaryBattery(Battery *battery)
     }
 
     m_primaryBattery = battery;
-    emit this->primaryBatteryChanged();
+    Q_EMIT this->primaryBatteryChanged();
 
 }
 
@@ -238,7 +238,7 @@ void BatteryInfo::setHasBatteries(const bool &value)
     }
 
     m_hasBatteries = value;
-    emit hasBatteriesChanged();
+    Q_EMIT hasBatteriesChanged();
 }
 
 Battery::Battery(const Solid::Device &deviceBattery) : QObject(nullptr) //not parented. deleted by the BatteryModel
@@ -274,19 +274,19 @@ Battery::Battery(const Solid::Device &deviceBattery) : QObject(nullptr) //not pa
     {
         qDebug() << "Battery percent changed" << percent << m_battery->chargeState();
 
-        emit this->percentChanged();
+        Q_EMIT this->percentChanged();
     });
 
     connect(m_battery, &Solid::Battery::energyChanged, this, [this](double, QString)
     {
-        emit this->energyChanged();
+        Q_EMIT this->energyChanged();
     });
 
     connect(m_battery, &Solid::Battery::presentStateChanged, this, [this](bool present, QString)
     {
         qDebug() << "Battery present changed" << present;
 
-        emit this->pluggedInChanged();
+        Q_EMIT this->pluggedInChanged();
     });
 
     connect(m_battery, &Solid::Battery::remainingTimeChanged, this, [this](qulonglong time, QString)
@@ -332,7 +332,7 @@ void Battery::setState(const Solid::Battery::ChargeState &state)
     m_state = state;
     m_stateName = batteryStateToString(m_state);
 
-    emit this->stateChanged();
+    Q_EMIT this->stateChanged();
 }
 
 
@@ -413,7 +413,7 @@ const QString &Battery::prettyName() const
     } else
     {
 
-        m_prettyName = "Battery";
+        m_prettyName = QStringLiteral("Battery");
     }
 
     return m_prettyName;
@@ -462,7 +462,7 @@ void BatteryInfo::deviceRemoved(const QString &udi)
         m_batteries->removeBattery(udi);
 
         m_hasBatteries = m_batteries->count() > 0;
-        emit hasBatteriesChanged();
+        Q_EMIT hasBatteriesChanged();
     }
 }
 
@@ -494,7 +494,7 @@ void BatteryInfo::onAcPlugStateChanged(const bool &value)
     }
 
     m_acPluggedIn = value;
-    emit acPluggedInChanged(m_acPluggedIn);
+    Q_EMIT acPluggedInChanged(m_acPluggedIn);
 }
 
 
@@ -576,7 +576,7 @@ void Battery::setRemainingTime(qulonglong newRemainingTime)
         return;
 
     m_remainingTime = newRemainingTime;
-    emit remainingTimeChanged();
+    Q_EMIT remainingTimeChanged();
 }
 
 
@@ -585,7 +585,7 @@ void Battery::setChargeStopThreshold(int newChargeStopThreshold)
     if (m_chargeStopThreshold == newChargeStopThreshold)
         return;
     m_chargeStopThreshold = newChargeStopThreshold;
-    emit chargeStopThresholdChanged();
+    Q_EMIT chargeStopThresholdChanged();
 }
 
 int BatteryModel::count() const
@@ -614,7 +614,7 @@ void Battery::setTimeToEmpty(qulonglong timeToEmpty)
         return;
 
     m_timeToEmpty = timeToEmpty;
-    emit timeToEmptyChanged(m_timeToEmpty);
+    Q_EMIT timeToEmptyChanged(m_timeToEmpty);
 }
 
 void Battery::setTimeToFull(qulonglong timeToFull)
@@ -623,5 +623,5 @@ void Battery::setTimeToFull(qulonglong timeToFull)
         return;
 
     m_timeToFull = timeToFull;
-    emit timeToFullChanged(m_timeToFull);
+    Q_EMIT timeToFullChanged(m_timeToFull);
 }

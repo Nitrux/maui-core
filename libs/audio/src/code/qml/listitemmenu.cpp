@@ -1,16 +1,14 @@
-/*
-    SPDX-FileCopyrightText: 2021 Kai Uwe Broulik <kde@broulik.de>
-
-    SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
-*/
 
 #include "listitemmenu.h"
 
 #include <QAbstractItemModel>
+#include <QActionGroup>
 #include <QMenu>
 #include <QQuickItem>
 #include <QQuickWindow>
 #include <QWindow>
+
+#include <KLocalizedString>
 
 #include "card.h"
 #include "debug.h"
@@ -317,8 +315,12 @@ QMenu *ListItemMenu::createMenu()
         return nullptr;
     }
 
-    QMenu *menu = new QMenu();
+    auto *menu = new QMenu();
     menu->setAttribute(Qt::WA_DeleteOnClose);
+    // Breeze and Oxygen have rounded corners on menus. They set this attribute in polish()
+    // but at that time the underlying surface has already been created where setting this
+    // flag makes no difference anymore (Bug 385311)
+    menu->setAttribute(Qt::WA_TranslucentBackground);
 
     connect(menu, &QMenu::aboutToHide, this, [this] {
         setVisible(false);
@@ -332,12 +334,12 @@ QMenu *ListItemMenu::createMenu()
                 switchStreamsAction = menu->addAction(
                     QIcon::fromTheme(QStringLiteral("audio-on"),
                                      QIcon::fromTheme(QStringLiteral("audio-ready"), QIcon::fromTheme(QStringLiteral("audio-speakers-symbolic")))),
-                    tr("Play all audio via this device"));
+                    i18n("Play all audio via this device"));
             } else if (m_itemType == Source) {
                 switchStreamsAction = menu->addAction(
                     QIcon::fromTheme(QStringLiteral("mic-on"),
                                      QIcon::fromTheme(QStringLiteral("mic-ready"), QIcon::fromTheme(QStringLiteral("audio-input-microphone-symbolic")))),
-                    tr("Record all audio via this device"));
+                    i18n("Record all audio via this device"));
             }
 
             if (switchStreamsAction) {
@@ -365,7 +367,7 @@ QMenu *ListItemMenu::createMenu()
         }
 
         if (availablePorts.count() > 1) {
-            menu->addSection(tr("Heading for a list of ports of a device (for example built-in laptop speakers or a plug for headphones)", "Ports"));
+            menu->addSection(i18nc("Heading for a list of ports of a device (for example built-in laptop speakers or a plug for headphones)", "Ports"));
 
             auto *portGroup = new QActionGroup(menu);
 
@@ -377,9 +379,9 @@ QMenu *ListItemMenu::createMenu()
 
                 if (port->availability() == Port::Unavailable) {
                     if (port->name() == QLatin1String("analog-output-speaker") || port->name() == QLatin1String("analog-input-microphone-internal")) {
-                        item = menu->addAction(tr("%1 (unavailable)").arg(port->description()));
+                        item = menu->addAction(i18nc("Port is unavailable", "%1 (unavailable)", port->description()));
                     } else {
-                        item = menu->addAction(tr("%1 (unplugged)").arg(port->description()));
+                        item = menu->addAction(i18nc("Port is unplugged", "%1 (unplugged)", port->description()));
                     }
                 } else {
                     item = menu->addAction(port->description());
@@ -435,7 +437,7 @@ QMenu *ListItemMenu::createMenu()
                 if (availableProfiles.count() > 1) {
                     // If there's too many profiles, put them in a submenu, unless the menu is empty, otherwise as a section
                     QMenu *profilesMenu = menu;
-                    const QString title = tr("Heading for a list of device profiles (5.1 surround sound, stereo, speakers only, ...)", "Profiles");
+                    const QString title = i18nc("Heading for a list of device profiles (5.1 surround sound, stereo, speakers only, ...)", "Profiles");
                     // "10" is catered around laptop speakers (internal, stereo, duplex) plus one HDMI port (stereo, surround 5.1, 7.1, in and out, etc)
                     if (availableProfiles.count() > 10 && !menu->actions().isEmpty()) {
                         profilesMenu = menu->addMenu(title);
@@ -443,7 +445,7 @@ QMenu *ListItemMenu::createMenu()
                         menu->addSection(title);
                     }
 
-                    QActionGroup *profileGroup = new QActionGroup(profilesMenu);
+                    auto *profileGroup = new QActionGroup(profilesMenu);
                     for (auto it = availableProfiles.constBegin(), end = availableProfiles.constEnd(); it != end; ++it) {
                         const int i = it.key();
                         Profile *profile = it.value();
@@ -469,9 +471,9 @@ QMenu *ListItemMenu::createMenu()
     if (stream && m_sourceModel && m_sourceModel->rowCount() > 1) {
         if (m_itemType == SinkInput || m_itemType == SourceOutput) {
             if (m_itemType == SinkInput) {
-                menu->addSection(tr("Heading for a list of possible output devices (speakers, headphones, ...) to choose", "Play audio using"));
+                menu->addSection(i18nc("Heading for a list of possible output devices (speakers, headphones, ...) to choose", "Play audio using"));
             } else {
-                menu->addSection(tr("Heading for a list of possible input devices (built-in microphone, headset, ...) to choose", "Record audio using"));
+                menu->addSection(i18nc("Heading for a list of possible input devices (built-in microphone, headset, ...) to choose", "Record audio using"));
             }
 
             const int indexRole = getModelRole(m_sourceModel, "Index");

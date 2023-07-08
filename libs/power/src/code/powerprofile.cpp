@@ -6,10 +6,10 @@
 #include <QDBusPendingCallWatcher>
 #include <QDBusReply>
 #include <KService>
-
+#include <QString>
 #include <QDebug>
 
-static const char SOLID_POWERMANAGEMENT_SERVICE[] = "org.kde.Solid.PowerManagement";
+static const QString SOLID_POWERMANAGEMENT_SERVICE = QStringLiteral("org.kde.Solid.PowerManagement");
 
 PowerProfile::PowerProfile(QObject *parent) : QObject(parent)
 {
@@ -19,7 +19,7 @@ PowerProfile::PowerProfile(QObject *parent) : QObject(parent)
     if (QDBusConnection::sessionBus().interface()->isServiceRegistered(SOLID_POWERMANAGEMENT_SERVICE))
     {
 
-//        if (!QDBusConnection::sessionBus().connect(SOLID_POWERMANAGEMENT_SERVICE,
+//        if (!QDBusConnection::sessionBus().connect(QStringLiteral(SOLID_POWERMANAGEMENT_SERVICE),
 //                                                   QStringLiteral("/org/kde/Solid/PowerManagement/PolicyAgent"),
 //                                                   QStringLiteral("org.kde.Solid.PowerManagement.PolicyAgent"),
 //                                                   QStringLiteral("InhibitionsChanged"),
@@ -253,7 +253,7 @@ void PowerProfile::populateApplicationData(const QString &name, QString *prettyN
     {
         KService::Ptr service = KService::serviceByStorageId(name + ".desktop");
         if (service) {
-            *prettyName = service->property(QStringLiteral("Name"), QVariant::Invalid).toString(); // cannot be null
+            *prettyName = service->property(QStringLiteral("Name")).toString(); // cannot be null
             *icon = service->icon();
 
             m_applicationInfo.insert(name, qMakePair(*prettyName, *icon));

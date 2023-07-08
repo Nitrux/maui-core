@@ -18,7 +18,7 @@
 #include "source.h"
 #include "volumemonitor.h"
 
-#include "listitemmenu.h"
+//#include "listitemmenu.h"
 // #include "microphoneindicator.h"
 #include "speakertest.h"
 #include "volumefeedback.h"
@@ -43,7 +43,7 @@ QUrl AudioPlugin::componentUrl(const QString &fileName) const
 
 void AudioPlugin::registerTypes(const char *uri)
 {
-    QPulseAudio::Context::setApplicationId(uri);
+    QPulseAudio::Context::setApplicationId(QString::fromLocal8Bit(uri));
 
     qmlRegisterType<SortFilterModel>(uri, 1, 0, "SortFilterModel");
 
@@ -59,7 +59,7 @@ void AudioPlugin::registerTypes(const char *uri)
     qmlRegisterUncreatableType<QPulseAudio::PulseObject>(uri, 1, 0, "PulseObject", QString());
     qmlRegisterUncreatableType<QPulseAudio::Profile>(uri, 1, 0, "Profile", QString());
     qmlRegisterUncreatableType<QPulseAudio::Port>(uri, 1, 0, "Port", QString());
-    qmlRegisterType<ListItemMenu>(uri, 1, 0, "ListItemMenu");
+//    qmlRegisterType<ListItemMenu>(uri, 1, 0, "ListItemMenu");
     // qmlRegisterType<VolumeOSD>(uri, 1, 0, "VolumeOSD");
     qmlRegisterType<VolumeFeedback>(uri, 1, 0, "VolumeFeedback");
     qmlRegisterType<SpeakerTest>(uri, 1, 0, "SpeakerTest");

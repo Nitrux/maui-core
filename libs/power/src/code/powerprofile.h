@@ -26,7 +26,7 @@ public:
 
     QList<QVariantMap> profileHolds() const;
 
-private slots:
+private Q_SLOTS:
     
     void setCurrentProfile(QString currentProfile);
 
@@ -38,7 +38,7 @@ private slots:
 
     void setProfileHolds(QList<QVariantMap> profileHolds);
 
-public slots:
+public Q_SLOTS:
     void changeProfile(const QString &value);
 
 private:
@@ -56,8 +56,7 @@ private:
 
     void populateApplicationData(const QString &name, QString *prettyName, QString *icon);
 
-signals:
-
+Q_SIGNALS:
     void currentProfileChanged(QString currentProfile);
     void profileChoicesChanged(QStringList profileChoices);
     void performanceInhibitedReasonChanged(QString performanceInhibitionReason);

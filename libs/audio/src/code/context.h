@@ -4,8 +4,7 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-#ifndef CONTEXT_H
-#define CONTEXT_H
+#pragma once
 
 #include <QMutex>
 #include <QObject>
@@ -219,5 +218,3 @@ private:
 };
 
 } // QPulseAudio
-
-#endif // CONTEXT_H
