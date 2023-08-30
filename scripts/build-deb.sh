@@ -69,7 +69,7 @@ checkinstall -D -y \
 	--pakdir=. \
 	--maintainer=uri_herrera@nxos.org \
 	--provides=maui-core \
-	--requires="libc6,libcanberra-pulse,libcanberra0,libkf5configcore5,libkf5coreaddons5,libkf5i18n5,libkf5idletime5,libkf5idletime5,libkf5kiocore5,libkf5notifications5,libpulse0,libpulse0,libstdc++6,mauikit-git \(\>= 3.0.0+git\)" \
+	--requires="libc6,libcanberra-pulse,libcanberra0,libkf5configcore5,libkf5coreaddons5,libkf5i18n5,libkf5idletime5,libkf5idletime5,libkf5kiocore5,libkf5notifications5,libpulse0,libpulse0,libstdc++6,mauikit-git \(\>= 3.0.1+git\)" \
 	--nodoc \
 	--strip=no \
 	--stripso=yes \
