@@ -42,12 +42,11 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/mauicoreaudio_version.h"
     DESTINATION ${KDE_INSTALL_INCLUDEDIR}/Maui/Core/Audio
     COMPONENT Devel)
 
-find_package(Qt6 ${REQUIRED_QT_VERSION} COMPONENTS Core Quick DBus Gui Widgets REQUIRED)
+find_package(Qt6 ${REQUIRED_QT_VERSION} COMPONENTS Core Quick Qml DBus Gui Widgets REQUIRED)
 find_package(KF6 ${REQUIRED_KF_VERSION} REQUIRED COMPONENTS I18n)
 
 #find_package(PkgConfig)
 find_package(Canberra REQUIRED)
-
 
 pkg_check_modules(LIBPULSE libpulse REQUIRED IMPORTED_TARGET)
 pkg_check_modules(LIBPULSE_MAINLOOP libpulse-mainloop-glib REQUIRED IMPORTED_TARGET)
@@ -67,8 +66,7 @@ set_package_properties(SoundThemeFreedesktop PROPERTIES
     TYPE RUNTIME)
 
 ecm_set_disabled_deprecation_versions(QT 5.15.2
-    KF 5.101
-)
+    KF 5.101)
 
 add_subdirectory(src)
 
