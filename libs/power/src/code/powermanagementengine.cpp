@@ -15,7 +15,7 @@
 #include <solid/deviceinterface.h>
 #include <solid/devicenotifier.h>
 
-#include <KAuthorized>
+//#include <KAuthorized>
 #include <KIdleTime>
 #include <klocalizedstring.h>
 #include <KService>
@@ -30,7 +30,7 @@
 
 #include "powermanagementjob.h"
 
-static const char SOLID_POWERMANAGEMENT_SERVICE[] = "org.kde.Solid.PowerManagement";
+static const QString SOLID_POWERMANAGEMENT_SERVICE = QStringLiteral("org.kde.Solid.PowerManagement");
 
 Q_DECLARE_METATYPE(QList<InhibitionInfo>)
 Q_DECLARE_METATYPE(InhibitionInfo)
@@ -51,9 +51,6 @@ void PowermanagementEngine::init()
     if (QDBusConnection::sessionBus().interface()->isServiceRegistered(SOLID_POWERMANAGEMENT_SERVICE))
     {
         qDebug() << "POWER IS REGISTERED" << SOLID_POWERMANAGEMENT_SERVICE;
-
-
-
     }
 }
 

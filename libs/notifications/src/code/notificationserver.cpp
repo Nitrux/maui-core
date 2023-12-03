@@ -108,14 +108,14 @@ uint NotificationServer::Notify(const QString &app_name,
     notification.appIcon = app_icon;
     notification.actions = actions;
     notification.persistent = timeout == 0;
-    notification.image = QString("image://notifications/%1").arg(id);
+    notification.image = QString(QStringLiteral("image://notifications/%1")).arg(id);
     const int averageWordLength = 6;
     const int wordPerMinute = 250;
     int totalLength = summary.length() + body.length();
     timeout = 2000 + qMax(60000 * totalLength / averageWordLength / wordPerMinute, 3000);
 
-    if (notification.appIcon.startsWith("file://"))
-        notification.appIcon = notification.appIcon.replace("file://", "");
+    if (notification.appIcon.startsWith(QStringLiteral("file://")))
+        notification.appIcon = notification.appIcon.replace(QStringLiteral("file://"), QStringLiteral(""));
     notification.timeout = timeout;
 
     if (hints.contains(QStringLiteral("category")))
@@ -186,9 +186,9 @@ uint NotificationServer::Notify(const QString &app_name,
 
     if (wasReplaced) {
         notification.updated = QDateTime::currentDateTimeUtc();
-        emit notificationReplaced(replaces_id, notification);
+        Q_EMIT notificationReplaced(replaces_id, notification);
     } else {
-        emit notificationAdded(notification);
+        Q_EMIT notificationAdded(notification);
     }
 
     return id;
@@ -214,11 +214,11 @@ QStringList NotificationServer::GetCapabilities() const
 
 QString NotificationServer::GetServerInformation(QString &vendor, QString &version, QString &specVersion) const
 {
-    vendor = "Maui Shell";
-    version = "0.5.0";
-    specVersion = "1.2";
+    vendor = QStringLiteral("Maui Shell");
+    version = QStringLiteral("0.5.0");
+    specVersion = QStringLiteral("1.2");
 
-    return "Cask";
+    return QStringLiteral("Cask");
 }
 
 uint NotificationServer::Inhibit(const QString &desktop_entry, const QString &reason, const QVariantMap &hints)
@@ -253,5 +253,5 @@ void NotificationServer::InvokeAction(uint id, const QString &actionKey)
 
 void NotificationServer::closeNotification(uint id, NotificationServer::CloseReason reason)
 {
-    emit notificationRemoved(id, reason);
+    Q_EMIT notificationRemoved(id, reason);
 }

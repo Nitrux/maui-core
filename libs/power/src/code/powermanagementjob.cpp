@@ -9,7 +9,7 @@
 #include <QDBusMessage>
 #include <QDBusPendingReply>
 
-#include <KAuthorized>
+//#include <KAuthorized>
 
 #include "powermanagementjob.h"
 

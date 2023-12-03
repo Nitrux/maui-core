@@ -17,8 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef HISTORYMODEL_H
-#define HISTORYMODEL_H
+#pragma once
 
 #include <QAbstractListModel>
 #include "notification.h"
@@ -62,5 +61,3 @@ public:
 private:
     QVector<Notification> m_notifications;
 };
-
-#endif // HISTORYMODEL_H

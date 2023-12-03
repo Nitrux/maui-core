@@ -1,4 +1,0 @@
-module org.mauicore.notifications
-plugin MauiCoreNotifications
-classname NotificationsPlugin
-typeinfo plugins.qmltypes

@@ -21,11 +21,7 @@ private:
 #if defined(Q_OS_ANDROID)
         return QStringLiteral("qrc:/android_rcc_bundle/qml/org/mauikit/filebrowsing/") + filePath;
 #else
-#ifdef QUICK_COMPILER
-        return QStringLiteral("qrc:/cask/notifications/") + filePath;
-#else
         return baseUrl().toString() + QLatin1Char('/') + filePath;
-#endif
 #endif
     }
 };

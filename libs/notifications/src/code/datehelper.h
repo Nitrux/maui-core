@@ -1,5 +1,4 @@
-#ifndef DATEHELPER_H
-#define DATEHELPER_H
+#pragma once
 
 #include <QObject>
 
@@ -12,5 +11,3 @@ public:
 
     Q_INVOKABLE static QString friendlyTime(const QDateTime &time);
 };
-
-#endif // DATEHELPER_H

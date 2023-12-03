@@ -22,12 +22,10 @@
  * $END_LICENSE$
  ***************************************************************************/
 
-#ifndef NOTIFICATIONSIMAGE_H
-#define NOTIFICATIONSIMAGE_H
+#pragma once
 
 #include <QtDBus/QDBusArgument>
 #include <QtGui/QImage>
 
 QImage decodeImageHint(const QDBusArgument &arg);
 
-#endif // NOTIFICATIONSIMAGE_H

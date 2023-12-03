@@ -1,4 +1,5 @@
 #pragma once
+
 #include <QObject>
 #include <QAbstractListModel>
 
@@ -30,7 +31,7 @@ public:
     Q_PROPERTY(int chargeStopThreshold READ chargeStopThreshold WRITE setChargeStopThreshold NOTIFY chargeStopThresholdChanged)
 
     explicit Battery(const Solid::Device &deviceBattery);
-~Battery();
+    ~Battery();
 public:
     const QString &udi() const;
 
@@ -66,12 +67,12 @@ public:
 
     qulonglong timeToFull() const;
 
-public slots:
+public Q_SLOTS:
     void setTimeToEmpty(qulonglong timeToEmpty);
 
     void setTimeToFull(qulonglong timeToFull);
 
-signals:
+Q_SIGNALS:
     void udiChanged();
 
     void capacityChanged();
@@ -110,7 +111,7 @@ private:
     QString m_type;
     Solid::Battery::ChargeState m_state;
     QString m_stateName;
-   mutable QString m_prettyName;
+    mutable QString m_prettyName;
     qulonglong m_remainingTime;
     int m_chargeStopThreshold;
     QString batteryType(const Solid::Battery *battery) const;
@@ -128,7 +129,7 @@ class BatteryModel : public QAbstractListModel
 
 public:
     explicit BatteryModel(QObject *parent = nullptr);
-~BatteryModel();
+    ~BatteryModel();
     int rowCount(const QModelIndex &parent) const override final;
     QVariant data(const QModelIndex &index, int role) const override final;
     QHash<int, QByteArray> roleNames() const override final;
@@ -138,10 +139,10 @@ public:
     void removeBattery(const QString &udi);
     bool contains(const QString &udi) const;
     int indexOf(const QString &udi) const;
-Battery * battery(const QString &udi);
+    Battery * battery(const QString &udi);
     int count() const;
 
-signals:
+Q_SIGNALS:
     void countChanged();
 
 private:
@@ -176,7 +177,7 @@ private:
     void deviceRemoved(const QString &udi);
     void deviceAdded(const QString &udi);
 
-private slots:
+private Q_SLOTS:
     void onChargeStopThresholdChanged(const int &value);
     void onAcPlugStateChanged(const bool &value);
 
@@ -185,7 +186,7 @@ protected:
     void setPrimaryBattery(Battery * battery);
     void setHasBatteries( const bool &value);
 
-signals:
+Q_SIGNALS:
     void batteriesChanged();
     void hasBatteriesChanged();
     void primaryBatteryChanged();

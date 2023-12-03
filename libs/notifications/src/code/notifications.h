@@ -21,8 +21,7 @@
  * $END_LICENSE$
  ***************************************************************************/
 
-#ifndef NOTIFICATIONS_H
-#define NOTIFICATIONS_H
+#pragma once
 
 #include <QObject>
 #include <QQmlParserStatus>
@@ -57,5 +56,3 @@ private:
     NotificationServer *m_server = nullptr;
     NotificationsModel *m_model = nullptr;
 };
-
-#endif // NOTIFICATIONS_H
