@@ -253,7 +253,7 @@ void PowerProfile::populateApplicationData(const QString &name, QString *prettyN
     {
         KService::Ptr service = KService::serviceByStorageId(name + ".desktop");
         if (service) {
-            *prettyName = service->property(QStringLiteral("Name")).toString(); // cannot be null
+            *prettyName = service->property<QString>(QStringLiteral("Name")); // cannot be null
             *icon = service->icon();
 
             m_applicationInfo.insert(name, qMakePair(*prettyName, *icon));

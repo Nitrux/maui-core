@@ -12,7 +12,7 @@ set(power_SRCS
     code/caskpowerplugin.cpp
     code/inhibitioncontrol.cpp)
 
-ecm_add_qml_module(${PROJECT_NAME} URI "org.mauicore.power" VERSION 1.0 CLASSNAME PowerPlugin)
+ecm_add_qml_module(${PROJECT_NAME} URI "org.mauicore.power" VERSION 1.0 CLASS_NAME PowerPlugin)
 
 #ecm_target_qml_sources(${PROJECT_NAME} SOURCES
 #    controls/PulseObjectFilterModel.qml)
