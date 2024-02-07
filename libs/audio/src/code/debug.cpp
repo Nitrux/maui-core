@@ -6,4 +6,4 @@
 
 #include "debug.h"
 
-Q_LOGGING_CATEGORY(PLASMAPA, "com.cutefish.pulseaudio", QtWarningMsg)
+Q_LOGGING_CATEGORY(PLASMAPA, "org.mauicore.audio", QtWarningMsg)

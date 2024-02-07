@@ -10,7 +10,9 @@ set(USE_GCONF False)
 
 configure_file(code/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
-ecm_add_qml_module(${PROJECT_NAME} URI "org.mauicore.audio" VERSION 1.0 CLASSNAME AudioPlugin)
+ecm_add_qml_module(${PROJECT_NAME} URI "org.mauicore.audio" 
+VERSION 1.0 
+CLASS_NAME AudioPlugin)
 
 set(audio_SRCS
     code/card.cpp
@@ -81,7 +83,7 @@ target_link_libraries(${PROJECT_NAME}
     PkgConfig::GIO)
 
 ecm_finalize_qml_module(${PROJECT_NAME} DESTINATION ${KDE_INSTALL_QMLDIR})
-ecm_generate_qmltypes(org.mauicore.audio 1.0 DESTINATION ${KDE_INSTALL_QMLDIR}/org/mauicore/audio)
+# ecm_generate_qmltypes(org.mauicore.audio 1.0 DESTINATION ${KDE_INSTALL_QMLDIR}/org/mauicore/audio)
 
 install(TARGETS ${PROJECT_NAME} EXPORT MauiCoreAudioTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
