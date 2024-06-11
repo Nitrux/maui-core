@@ -4,11 +4,16 @@
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/code
-    )
+    ${CMAKE_CURRENT_SOURCE_DIR}/code)
 
-ecm_add_qml_module(${PROJECT_NAME} URI "org.mauicore.notifications" VERSION 1.0 CLASSNAME NotificationsPlugin)
+add_library(${PROJECT_NAME} SHARED)
+
+ecm_add_qml_module(${PROJECT_NAME}
+    URI "org.mauicore.notifications"
+    VERSION 1.0
+    CLASSNAME NotificationsPlugin
+    NO_PLUGIN_OPTIONAL
+    NO_GENERATE_PLUGIN_SOURCE)
 
 set(SRCS
     code/notificationimagesstorage.cpp
@@ -39,7 +44,7 @@ qt_add_dbus_adaptor(SRCS code/org.freedesktop.Notifications.xml code/notificatio
 #ecm_target_qml_sources(${PROJECT_NAME} SOURCES
 #    controls/PulseObjectFilterModel.qml)
 
-target_sources(${PROJECT_NAME}
+target_sources(${PROJECT_NAME}plugin
     PRIVATE
     ${SRCS}
     ${headers})
@@ -57,7 +62,7 @@ target_include_directories(${PROJECT_NAME}
 
 target_include_directories(${PROJECT_NAME}  PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR};${CMAKE_CURRENT_BINARY_DIR};>")
 
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(${PROJECT_NAME}plugin
     PRIVATE
     Qt6::Core
     Qt6::Quick
@@ -66,7 +71,6 @@ target_link_libraries(${PROJECT_NAME}
     KF6::I18n)
 
 ecm_finalize_qml_module(${PROJECT_NAME} DESTINATION ${KDE_INSTALL_QMLDIR})
-ecm_generate_qmltypes(org.mauicore.notifications 1.0 DESTINATION ${KDE_INSTALL_QMLDIR}/org/mauicore/notifications)
 
 install(TARGETS ${PROJECT_NAME} EXPORT MauiCoreNotificationsTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 

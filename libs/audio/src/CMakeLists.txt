@@ -10,9 +10,12 @@ set(USE_GCONF False)
 
 configure_file(code/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
+add_library(${PROJECT_NAME} SHARED)
 ecm_add_qml_module(${PROJECT_NAME} URI "org.mauicore.audio" 
 VERSION 1.0 
-CLASS_NAME AudioPlugin)
+CLASS_NAME AudioPlugin
+NO_PLUGIN_OPTIONAL
+NO_GENERATE_PLUGIN_SOURCE)
 
 set(audio_SRCS
     code/card.cpp
@@ -49,7 +52,7 @@ set(audio_SRCS
 ecm_target_qml_sources(${PROJECT_NAME} SOURCES
     controls/PulseObjectFilterModel.qml)
 
-target_sources(${PROJECT_NAME}
+target_sources(${PROJECT_NAME}plugin
     PRIVATE
     ${audio_SRCS})
 
@@ -66,7 +69,7 @@ target_include_directories(${PROJECT_NAME}
 
 target_include_directories(${PROJECT_NAME} PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR};${CMAKE_CURRENT_BINARY_DIR};>")
 
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(${PROJECT_NAME}plugin
     PRIVATE
 
     Qt6::Core
